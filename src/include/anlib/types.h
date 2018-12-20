@@ -1,6 +1,8 @@
 #ifndef _ANLIB_TYPES_H
 #define _ANLIB_TYPES_H
 
+#define BITS_PER_LONG (sizeof(long))
+
 struct list_head {
 	struct list_head *next, *prev;
 };
