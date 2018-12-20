@@ -28,5 +28,17 @@ static void radix_tree_init_maxindex(void)
 	
 }
 
-
+/**
+ * radix_tree_insert  -  insert into a radix tree
+ * @root: radix tree root
+ * @index: index key
+ * @item: item to insert
+ *
+ * Insert an item into the radix tree at position @index.
+ */
+int radix_tree_insert(struct radix_tree_root *root,
+	unsigned long index, void *item)
+{
+	int error;
+}
 
