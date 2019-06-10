@@ -16,7 +16,7 @@ test.o: test.c /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/bits/sigset.h /usr/include/bits/time.h \
  /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h \
  /usr/include/alloca.h /usr/include/bits/stdlib-float.h \
- /home/zhangxa/souces/anlib/src/include/swap.h
+ /home/sources/anlib/src/include/swap.h
 
 /usr/include/stdc-predef.h:
 
@@ -88,4 +88,4 @@ test.o: test.c /usr/include/stdc-predef.h /usr/include/stdio.h \
 
 /usr/include/bits/stdlib-float.h:
 
-/home/zhangxa/souces/anlib/src/include/swap.h:
+/home/sources/anlib/src/include/swap.h:
