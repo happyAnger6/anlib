@@ -19,5 +19,6 @@ AC_PROG_RANLIB
 
 AC_OUTPUT([Makefile
 	src/lib/Makefile
+	src/lib/annet/Makefile
 	src/core/test/app/Makefile
 	])

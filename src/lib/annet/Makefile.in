@@ -86,7 +86,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-subdir = src/lib
+noinst_PROGRAMS = hostent$(EXEEXT) getservname$(EXEEXT)
+subdir = src/lib/annet
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -95,17 +96,13 @@ DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-LIBRARIES = $(noinst_LIBRARIES)
-AR = ar
-ARFLAGS = cru
-AM_V_AR = $(am__v_AR_@AM_V@)
-am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
-am__v_AR_0 = @echo "  AR      " $@;
-am__v_AR_1 = 
-libswap_a_AR = $(AR) $(ARFLAGS)
-libswap_a_LIBADD =
-am_libswap_a_OBJECTS = swap.$(OBJEXT)
-libswap_a_OBJECTS = $(am_libswap_a_OBJECTS)
+PROGRAMS = $(noinst_PROGRAMS)
+am_getservname_OBJECTS = getservname.$(OBJEXT)
+getservname_OBJECTS = $(am_getservname_OBJECTS)
+getservname_LDADD = $(LDADD)
+am_hostent_OBJECTS = hostent.$(OBJEXT)
+hostent_OBJECTS = $(am_hostent_OBJECTS)
+hostent_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -134,8 +131,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libswap_a_SOURCES)
-DIST_SOURCES = $(libswap_a_SOURCES)
+SOURCES = $(getservname_SOURCES) $(hostent_SOURCES)
+DIST_SOURCES = $(getservname_SOURCES) $(hostent_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -248,8 +245,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-noinst_LIBRARIES = libswap.a
-libswap_a_SOURCES = swap.c
+hostent_SOURCES = hostent.c
+getservname_SOURCES = getservname.c
 INCLUDES = -I$(top_srcdir)/src/include
 all: all-am
 
@@ -264,9 +261,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/lib/annet/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/lib/Makefile
+	  $(AUTOMAKE) --gnu src/lib/annet/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -285,13 +282,16 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+clean-noinstPROGRAMS:
+	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 
-libswap.a: $(libswap_a_OBJECTS) $(libswap_a_DEPENDENCIES) $(EXTRA_libswap_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libswap.a
-	$(AM_V_AR)$(libswap_a_AR) libswap.a $(libswap_a_OBJECTS) $(libswap_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libswap.a
+getservname$(EXEEXT): $(getservname_OBJECTS) $(getservname_DEPENDENCIES) $(EXTRA_getservname_DEPENDENCIES) 
+	@rm -f getservname$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(getservname_OBJECTS) $(getservname_LDADD) $(LIBS)
+
+hostent$(EXEEXT): $(hostent_OBJECTS) $(hostent_DEPENDENCIES) $(EXTRA_hostent_DEPENDENCIES) 
+	@rm -f hostent$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(hostent_OBJECTS) $(hostent_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -299,7 +299,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/swap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getservname.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hostent.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -399,7 +400,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(PROGRAMS)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -433,7 +434,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
+clean-am: clean-generic clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -503,7 +504,7 @@ uninstall-am:
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
-	clean-noinstLIBRARIES cscopelist-am ctags ctags-am distclean \
+	clean-noinstPROGRAMS cscopelist-am ctags ctags-am distclean \
 	distclean-compile distclean-generic distclean-tags distdir dvi \
 	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \
